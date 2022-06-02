@@ -48,6 +48,8 @@ jobs:
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_HOST_URL: http://localhost:9000
 
       - name: SonarQube Quality Gate check
         continue-on-error: true

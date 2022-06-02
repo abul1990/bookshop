@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreditDebitCard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase.payment.mode</a> &gt; <span class="el_source">CreditDebitCard.java</span></div><h1>CreditDebitCard.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase.payment.mode;
+
+import com.tw.bootcamp.bookshop.config.RestTemplateConfigurator;
+import com.tw.bootcamp.bookshop.money.Money;
+import com.tw.bootcamp.bookshop.purchase.PaymentFailedException;
+import com.tw.bootcamp.bookshop.purchase.PurchaseRequest;
+import com.tw.bootcamp.bookshop.purchase.payment.Card;
+import com.tw.bootcamp.bookshop.purchase.payment.CardPaymentRequest;
+import com.tw.bootcamp.bookshop.purchase.payment.PaymentMethod;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+
+@Component
+public class CreditDebitCard implements Payment {
+
+
+    private final String externalPaymentApiUrl;
+
+    RestTemplate restTemplate;
+
+<span class="fc" id="L26">    public CreditDebitCard(@Value(&quot;${external.payment.api.url}&quot;) String url) {</span>
+<span class="fc" id="L27">        this.externalPaymentApiUrl = url;</span>
+<span class="fc" id="L28">        this.restTemplate = RestTemplateConfigurator.getRestTemplate();</span>
+<span class="fc" id="L29">    }</span>
+
+    @Override
+    public PaymentMethod type() {
+<span class="fc" id="L33">        return PaymentMethod.CARD;</span>
+    }
+
+    @Override
+    public void pay(PurchaseRequest purchaseRequest, Money price) throws PaymentFailedException {
+
+        try {
+<span class="fc" id="L40">            HttpEntity&lt;CardPaymentRequest&gt; entity = new HttpEntity&lt;CardPaymentRequest&gt;(buildCardPaymentRequest(purchaseRequest, price), buildHttpHeaders());</span>
+<span class="fc" id="L41">            restTemplate.exchange(externalPaymentApiUrl, HttpMethod.POST, entity, String.class)</span>
+<span class="fc" id="L42">                    .getStatusCode();</span>
+<span class="fc" id="L43">        } catch (RestClientResponseException ex) {</span>
+<span class="fc" id="L44">            int paymentStatus = ex.getRawStatusCode();</span>
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if(paymentStatus == HttpStatus.BAD_REQUEST.value()){</span>
+<span class="fc" id="L47">                throw new PaymentFailedException(&quot;Payment details invalid&quot;);</span>
+            }
+
+<span class="fc" id="L50">          throw new PaymentFailedException(&quot;Payment failed! please try again later&quot;);</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
+
+    private HttpHeaders buildHttpHeaders() {
+<span class="fc" id="L55">        HttpHeaders headers = new HttpHeaders();</span>
+<span class="fc" id="L56">        headers.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="fc" id="L57">        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));</span>
+<span class="fc" id="L58">        return headers;</span>
+    }
+
+    public CardPaymentRequest buildCardPaymentRequest(PurchaseRequest purchaseRequest, Money price) throws PaymentFailedException {
+<span class="fc" id="L62">        Card card = purchaseRequest.getCard();</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if(card == null){</span>
+<span class="nc" id="L64">            throw new PaymentFailedException(&quot;Card details are missing&quot;);</span>
+        }
+
+<span class="fc" id="L67">        return CardPaymentRequest.createCardPayment(card, price.getAmount());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

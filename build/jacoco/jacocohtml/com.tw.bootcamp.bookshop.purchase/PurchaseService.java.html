@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PurchaseService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase</a> &gt; <span class="el_source">PurchaseService.java</span></div><h1>PurchaseService.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase;
+
+import com.tw.bootcamp.bookshop.book.Book;
+import com.tw.bootcamp.bookshop.book.BookService;
+import com.tw.bootcamp.bookshop.purchase.payment.mode.PaymentMethodFactory;
+import com.tw.bootcamp.bookshop.error.BookNotAvailableException;
+import com.tw.bootcamp.bookshop.order.Order;
+import com.tw.bootcamp.bookshop.order.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
+@Component
+<span class="fc" id="L16">public class PurchaseService {</span>
+
+    @Value(&quot;${shipping.charges:100}&quot;)
+    private double shippingCharges;
+
+    @Autowired
+    private BookService bookService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    PaymentMethodFactory paymentMethodFactory;
+
+    public PurchaseResponse placeAnOrder(PurchaseRequest purchaseRequest) throws Exception {
+<span class="fc" id="L31">        Book book = getBookIfAvailable(purchaseRequest);</span>
+<span class="fc" id="L32">        Order requestedOrder = Order.create(purchaseRequest, book);</span>
+<span class="fc" id="L33">        requestedOrder.addShippingCharges(shippingCharges);</span>
+<span class="fc" id="L34">        paymentMethodFactory.getInstance(purchaseRequest.getPaymentMethod())</span>
+<span class="fc" id="L35">                .pay(purchaseRequest, requestedOrder.getTotalPrice());</span>
+<span class="fc" id="L36">        Order placedOrder = orderService.createOrder(requestedOrder);</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (!ifOrderPlaced(placedOrder)) {</span>
+<span class="fc" id="L38">            return new PurchaseResponse(000L, TransactionStatus.FAILED);</span>
+        }
+<span class="fc" id="L40">        bookService.updateBookTotalAvailableCount(book, purchaseRequest.getNoOfCopies());</span>
+<span class="fc" id="L41">        return new PurchaseResponse(placedOrder.getId(), TransactionStatus.SUCCESS);</span>
+    }
+
+    private Book getBookIfAvailable(PurchaseRequest purchaseRequest) throws BookNotAvailableException {
+<span class="fc" id="L45">        Optional&lt;Book&gt; book = bookService.fetchBookById(purchaseRequest.getBookId());</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (!book.isPresent()) {</span>
+<span class="fc" id="L47">            throw new BookNotAvailableException(&quot;Book not found&quot;);</span>
+        }
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (book.get().getQuantity() == 0) {</span>
+<span class="nc" id="L50">            throw new BookNotAvailableException(&quot;Book is out of stock&quot;);</span>
+        }
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (book.get().getQuantity() &lt; purchaseRequest.getNoOfCopies()) {</span>
+<span class="fc" id="L53">            throw new BookNotAvailableException(&quot;Only &quot; + book.get().getQuantity() + &quot; copies are available&quot;);</span>
+        }
+<span class="fc" id="L55">        return book.get();</span>
+    }
+
+    private boolean ifOrderPlaced(Order placedOrder) {
+<span class="pc bpc" id="L59" title="1 of 4 branches missed.">        return null != placedOrder &amp;&amp; placedOrder.getId() &gt; 0;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

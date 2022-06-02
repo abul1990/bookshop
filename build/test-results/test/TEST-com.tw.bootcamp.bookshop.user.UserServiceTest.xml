@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tw.bootcamp.bookshop.user.UserServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-05-16T09:39:51" hostname="Abulassans-MacBook-Pro.local" time="0.848">
+  <properties/>
+  <testcase name="shouldAddAddressWhenProvided()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.321"/>
+  <testcase name="shouldCreateUserWithValidInputs()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.172"/>
+  <testcase name="shouldUpdateFirstNameAndLastNameAndMobileNumberWhenProvided()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.088"/>
+  <testcase name="shouldReturnUserForGivenValidEmail()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.089"/>
+  <testcase name="shouldNotCreateUserWhenUserWithSameEmailAlreadyExists()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.087"/>
+  <testcase name="shouldReturnUserNotFoundExceptionForGivenInValidEmail()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.002"/>
+  <testcase name="shouldNotCreateUserWhenInputIsInvalid()" classname="com.tw.bootcamp.bookshop.user.UserServiceTest" time="0.085"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

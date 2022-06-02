@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.user</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.user;
+
+import com.tw.bootcamp.bookshop.error.InvalidEmailException;
+import com.tw.bootcamp.bookshop.error.UserNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import javax.validation.Validator;
+import java.util.Optional;
+
+@Service
+public class UserService implements UserDetailsService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private Validator validator;
+
+<span class="fc" id="L23">    public UserService() {</span>
+<span class="fc" id="L24">    }</span>
+
+    public User create(CreateUserRequest userRequest) throws InvalidEmailException {
+<span class="fc" id="L27">        Optional&lt;User&gt; user = userRepository.findByEmail(userRequest.getEmail());</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (user.isPresent()) {</span>
+<span class="fc" id="L29">            throw new InvalidEmailException();</span>
+        }
+<span class="fc" id="L31">        User newUser = User.create(userRequest);</span>
+<span class="fc" id="L32">        validator.validate(newUser);</span>
+<span class="fc" id="L33">        return userRepository.save(newUser);</span>
+    }
+
+    public Optional&lt;User&gt; findByEmail(String email) {
+<span class="nc" id="L37">        return userRepository.findByEmail(email);</span>
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+<span class="fc" id="L42">        User user = userRepository.findByEmail(email).orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User not found&quot;));</span>
+
+<span class="fc" id="L44">        return new org.springframework.security.core.userdetails.User(</span>
+<span class="fc" id="L45">                user.getEmail(),</span>
+<span class="fc" id="L46">                user.getPassword(),</span>
+<span class="fc" id="L47">                AuthorityUtils.createAuthorityList(user.getRole().authority())</span>
+        );
+    }
+
+    public void update(Long id, UpdateUserRequest updateUserRequest) throws UserNotFoundException {
+<span class="fc" id="L52">        User user = findById(id);</span>
+<span class="fc" id="L53">        user.update(updateUserRequest);</span>
+<span class="fc" id="L54">        userRepository.save(user);</span>
+<span class="fc" id="L55">    }</span>
+
+    private User findById(Long id) throws UserNotFoundException {
+<span class="pc" id="L58">        return userRepository.findById(id).orElseThrow(() -&gt; new UserNotFoundException(&quot;User not found&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

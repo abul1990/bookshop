@@ -1,0 +1,5 @@
+ALTER TABLE books
+  ADD COLUMN description varchar(3000);
+
+ALTER TABLE books
+  ADD COLUMN rating DOUBLE PRECISION DEFAULT 0.0;

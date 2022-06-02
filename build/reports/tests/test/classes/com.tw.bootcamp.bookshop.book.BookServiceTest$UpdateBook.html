@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - UpdateBook</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>UpdateBook</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.tw.bootcamp.bookshop.book.html">com.tw.bootcamp.bookshop.book</a> &gt; BookServiceTest$UpdateBook</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.020s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">shouldUpdateBookTotalAvailableCountGivenNoOfCopiesPurchased()</td>
+<td class="success">0.020s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-05-16 15:09:55.967  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.tw.bootcamp.bookshop.book.BookServiceTest$UpdateBook], using DelegatingSmartContextLoader
+2022-05-16 15:09:55.968  INFO 28123 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.tw.bootcamp.bookshop.book.BookServiceTest$UpdateBook]: no resource found for suffixes {-context.xml}.
+2022-05-16 15:09:55.968  INFO 28123 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tw.bootcamp.bookshop.book.BookServiceTest$UpdateBook]: UpdateBook does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-05-16 15:09:55.970  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-05-16 15:09:55.971  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@22b2cca5, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@7198118f, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@618ac419, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@7b0f0345, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4f6c3f65, org.springframework.test.context.transaction.TransactionalTestExecutionListener@7e495b6e, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@49d4e2b2, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@4ac2c5e6, org.springframework.test.context.event.EventPublishingTestExecutionListener@64fb5ccc, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@50dde916, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@3e7240cd, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@62434f10, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@5ce062a8, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@634ab57b, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@4f12f5f7, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@375118ca]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.4.1</a> at 16 May, 2022 3:10:01 PM</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CardPaymentRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase.payment</a> &gt; <span class="el_source">CardPaymentRequest.java</span></div><h1>CardPaymentRequest.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase.payment;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
+
+import java.util.Date;
+
+<span class="nc bnc" id="L11" title="All 36 branches missed.">@Value</span>
+<span class="pc" id="L12">@Builder</span>
+<span class="fc" id="L13">@AllArgsConstructor</span>
+public class CardPaymentRequest {
+
+
+<span class="fc" id="L17">    Double amount;</span>
+
+    @JsonProperty(&quot;creditCardNumber&quot;)
+<span class="fc" id="L20">    String number;</span>
+
+    @JsonProperty(&quot;cardSecurityCode&quot;)
+<span class="fc" id="L23">    String cvv;</span>
+
+    @JsonFormat(pattern = &quot;MM/yyyy&quot;, shape = JsonFormat.Shape.STRING)
+    @JsonProperty(&quot;creditCardExpiration&quot;)
+<span class="fc" id="L27">    Date expiryDate;</span>
+
+    public static CardPaymentRequest createCardPayment(Card card, Double amount) {
+<span class="fc" id="L30">        return CardPaymentRequest.builder().number(card.getNumber()).cvv(card.getCvv()).expiryDate(card.getExpiryDate()).amount(amount).build();</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

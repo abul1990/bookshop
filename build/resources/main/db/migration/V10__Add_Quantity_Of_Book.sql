@@ -1,0 +1,2 @@
+ALTER TABLE books
+  ADD COLUMN quantity bigint NOT NULL DEFAULT 0;

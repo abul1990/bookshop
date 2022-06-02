@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CreditDebitCard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase.payment</a> &gt; <span class="el_source">CreditDebitCard.java</span></div><h1>CreditDebitCard.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase.payment;
+
+import com.tw.bootcamp.bookshop.money.Money;
+import com.tw.bootcamp.bookshop.purchase.PurchaseRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+
+@Component
+public class CreditDebitCard implements Payment {
+
+    public static final String EXTERNAL_PAYMENT_API_URL = &quot;https://tw-mock-credit-service.herokuapp.com/payments&quot;;
+    @Autowired
+    RestTemplate restTemplate;
+
+<span class="nc" id="L22">    public CreditDebitCard(RestTemplate restTemplate) {</span>
+<span class="nc" id="L23">        this.restTemplate = restTemplate;</span>
+<span class="nc" id="L24">    }</span>
+
+    @Override
+    public PaymentMethod type() {
+<span class="nc" id="L28">        return PaymentMethod.CARD;</span>
+    }
+
+    @Override
+    public void pay(PurchaseRequest purchaseRequest, Money price) {
+
+<span class="nc" id="L34">        HttpEntity&lt;CardPaymentRequest&gt; entity = new HttpEntity&lt;CardPaymentRequest&gt;(buildCardPaymentRequest(purchaseRequest, price), buildHttpHeaders());</span>
+<span class="nc" id="L35">        restTemplate.exchange(EXTERNAL_PAYMENT_API_URL, HttpMethod.POST, entity, String.class)</span>
+<span class="nc" id="L36">                .getStatusCode();</span>
+<span class="nc" id="L37">    }</span>
+
+    private HttpHeaders buildHttpHeaders() {
+<span class="nc" id="L40">        HttpHeaders headers = new HttpHeaders();</span>
+<span class="nc" id="L41">        headers.setContentType(MediaType.APPLICATION_JSON);</span>
+<span class="nc" id="L42">        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));</span>
+<span class="nc" id="L43">        return headers;</span>
+    }
+
+    public CardPaymentRequest buildCardPaymentRequest(PurchaseRequest purchaseRequest, Money price) {
+<span class="nc" id="L47">        return CardPaymentRequest.createCardPayment(purchaseRequest.getCard(), price.getAmount());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

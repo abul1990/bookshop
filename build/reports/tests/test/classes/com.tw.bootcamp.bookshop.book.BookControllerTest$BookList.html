@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - BookList</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>BookList</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.tw.bootcamp.bookshop.book.html">com.tw.bootcamp.bookshop.book</a> &gt; BookControllerTest$BookList</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">2</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.023s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">shouldBeEmptyListWhenNoBooksPresent()</td>
+<td class="success">0.011s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shouldListAllBooksWhenPresent()</td>
+<td class="success">0.012s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>2022-05-16 15:09:55.775  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Neither @ContextConfiguration nor @ContextHierarchy found for test class [com.tw.bootcamp.bookshop.book.BookControllerTest$BookList], using DelegatingSmartContextLoader
+2022-05-16 15:09:55.776  INFO 28123 --- [    Test worker] o.s.t.c.support.AbstractContextLoader    : Could not detect default resource locations for test class [com.tw.bootcamp.bookshop.book.BookControllerTest$BookList]: no resource found for suffixes {-context.xml}.
+2022-05-16 15:09:55.776  INFO 28123 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.tw.bootcamp.bookshop.book.BookControllerTest$BookList]: BookList does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2022-05-16 15:09:55.776  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener, org.springframework.security.test.context.support.ReactorContextTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+2022-05-16 15:09:55.777  INFO 28123 --- [    Test worker] o.s.t.c.s.DefaultTestContextBootstrapper : Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@7ac485d6, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@79ad2ae9, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@6eab3224, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@7386ff0e, org.springframework.test.context.support.DirtiesContextTestExecutionListener@2db22e9d, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3d58a3a0, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@a559c3d, org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener@4e6f7cf6, org.springframework.test.context.event.EventPublishingTestExecutionListener@72956560, org.springframework.security.test.context.support.ReactorContextTestExecutionListener@aa89d31, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@2c3a4c2d, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@19071d90, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@40e0c5b5, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@e6f998d, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@704af749, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@51809f4d]
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.4.1</a> at 16 May, 2022 3:10:01 PM</p>
+</div>
+</div>
+</body>
+</html>

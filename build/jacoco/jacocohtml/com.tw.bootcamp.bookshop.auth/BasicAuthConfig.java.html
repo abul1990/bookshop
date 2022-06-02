@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BasicAuthConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.auth</a> &gt; <span class="el_source">BasicAuthConfig.java</span></div><h1>BasicAuthConfig.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.auth;
+
+import com.tw.bootcamp.bookshop.user.User;
+import com.tw.bootcamp.bookshop.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+@Configuration
+@EnableWebSecurity
+<span class="fc" id="L15">public class BasicAuthConfig extends WebSecurityConfigurerAdapter {</span>
+<span class="fc" id="L16">    private static final String[] AUTH_WHITELIST = {</span>
+            &quot;/authenticate&quot;,
+            &quot;/swagger-resources/**&quot;,
+            &quot;/swagger-ui/**&quot;,
+            &quot;/v3/api-docs&quot;,
+            &quot;/webjars/**&quot;,
+            &quot;/swagger-ui.html&quot;,
+            &quot;/swagger-ui/index.html&quot;,
+            &quot;/v3/api-docs/swagger-config&quot;,
+            &quot;/books&quot;,
+            &quot;/books/*&quot;,
+            &quot;/user/order&quot;,
+            &quot;/orders&quot;,
+            &quot;/orders/startDate/*/endDate/*&quot;
+    };
+    @Autowired
+    UserService userService;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+<span class="fc" id="L36">        auth.userDetailsService(userService).passwordEncoder(User.PASSWORD_ENCODER);</span>
+<span class="fc" id="L37">    }</span>
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+<span class="fc" id="L42">        http.authorizeRequests()</span>
+<span class="fc" id="L43">                .antMatchers(HttpMethod.POST, &quot;/users&quot;).permitAll()</span>
+<span class="fc" id="L44">                .antMatchers(HttpMethod.OPTIONS, &quot;/**&quot;).permitAll()</span>
+<span class="fc" id="L45">                .antMatchers(AUTH_WHITELIST).permitAll()</span>
+<span class="fc" id="L46">                .anyRequest().authenticated()</span>
+<span class="fc" id="L47">                .and()</span>
+<span class="fc" id="L48">                .httpBasic()</span>
+<span class="fc" id="L49">                .and()</span>
+<span class="fc" id="L50">                .cors()</span>
+<span class="fc" id="L51">                .and()</span>
+<span class="fc" id="L52">                .csrf().disable();</span>
+<span class="fc" id="L53">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

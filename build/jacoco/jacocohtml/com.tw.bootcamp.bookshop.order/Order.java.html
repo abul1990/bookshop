@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.order</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.order;
+
+import com.tw.bootcamp.bookshop.book.Book;
+import com.tw.bootcamp.bookshop.money.Money;
+import com.tw.bootcamp.bookshop.purchase.OrderAddressDTO;
+import com.tw.bootcamp.bookshop.purchase.PurchaseRequest;
+import com.tw.bootcamp.bookshop.purchase.payment.PaymentMethod;
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.sql.Date;
+
+<span class="fc" id="L15">@NoArgsConstructor</span>
+<span class="fc" id="L16">@AllArgsConstructor</span>
+<span class="nc" id="L17">@Builder</span>
+@Getter
+<span class="pc" id="L19">@Setter</span>
+@Entity
+@Table(name = &quot;orders&quot;)
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L25">    private Long id;</span>
+
+    @NotBlank
+<span class="fc" id="L28">    private String customerName;</span>
+
+    @NotBlank
+<span class="fc" id="L31">    private String mobileNumber;</span>
+
+<span class="fc" id="L33">    private Date orderDate;</span>
+
+    @NotBlank
+<span class="fc" id="L36">    private String addressLineNoOne;</span>
+
+<span class="fc" id="L38">    private String addressLineNoTwo;</span>
+
+    @NotBlank
+<span class="fc" id="L41">    private String addressCity;</span>
+
+    @NotBlank
+<span class="fc" id="L44">    private String addressState;</span>
+
+    @NotBlank
+<span class="fc" id="L47">    private String addressPinCode;</span>
+
+    @NotBlank
+<span class="fc" id="L50">    private String addressCountry;</span>
+
+    @NotBlank(message = &quot;Email is mandatory&quot;)
+<span class="nc" id="L53">    private String userEmailId;</span>
+
+    @NotNull(message = &quot;Book id can not be null&quot;)
+
+    @ManyToOne
+    @JoinColumn(name = &quot;book_id&quot;, nullable = false)
+<span class="fc" id="L59">    private Book book;</span>
+
+<span class="fc" id="L61">    private int noOfCopies;</span>
+
+    @Column(columnDefinition = &quot;VARCHAR&quot;)
+<span class="nc" id="L64">    private PaymentMethod paymentMethod;</span>
+
+    @Embedded
+<span class="fc" id="L67">    private Money totalPrice;</span>
+
+    public static Order create(PurchaseRequest purchaseRequest, Book book) {
+<span class="fc" id="L70">        OrderAddressDTO address = purchaseRequest.getDeliveryAddress();</span>
+<span class="fc" id="L71">        return new Order(</span>
+<span class="fc" id="L72">                00L,</span>
+<span class="fc" id="L73">                purchaseRequest.getCustomerName(),</span>
+<span class="fc" id="L74">                purchaseRequest.getMobileNumber(),</span>
+<span class="fc" id="L75">                new Date(System.currentTimeMillis()),</span>
+<span class="fc" id="L76">                address.getLineNoOne(),</span>
+<span class="fc" id="L77">                address.getLineNoTwo(),</span>
+<span class="fc" id="L78">                address.getCity(),</span>
+<span class="fc" id="L79">                address.getState(),</span>
+<span class="fc" id="L80">                address.getPinCode(),</span>
+<span class="fc" id="L81">                address.getCountry(),</span>
+<span class="fc" id="L82">                purchaseRequest.getUserEmailId(),</span>
+                book,
+<span class="fc" id="L84">                purchaseRequest.getNoOfCopies(),</span>
+<span class="fc" id="L85">                purchaseRequest.getPaymentMethod(),</span>
+<span class="fc" id="L86">                getTotalPrice(book, purchaseRequest));</span>
+    }
+
+    private static Money getTotalPrice(Book book, PurchaseRequest purchaseRequest) {
+<span class="fc" id="L90">        return Money.rupees(book.getPrice()</span>
+<span class="fc" id="L91">                .getAmount() * purchaseRequest.getNoOfCopies());</span>
+    }
+
+    public void addShippingCharges(double shippingCharges) {
+<span class="fc" id="L95">        this.totalPrice = Money.rupees(this.getTotalPrice()</span>
+<span class="fc" id="L96">                .getAmount() + shippingCharges);</span>
+<span class="fc" id="L97">    }</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

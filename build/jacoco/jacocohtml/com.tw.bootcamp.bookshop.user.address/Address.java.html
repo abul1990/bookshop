@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Address.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.user.address</a> &gt; <span class="el_source">Address.java</span></div><h1>Address.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.user.address;
+
+import com.tw.bootcamp.bookshop.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+@Getter
+<span class="nc" id="L14">@Setter</span>
+<span class="fc" id="L15">@AllArgsConstructor</span>
+<span class="pc" id="L16">@Builder</span>
+@Entity
+@Table(name = &quot;addresses&quot;)
+public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L22">    private Long id;</span>
+    @NotBlank(message = &quot;lineNoOne can not be blank&quot;)
+<span class="fc" id="L24">    private String lineNoOne;</span>
+<span class="nc" id="L25">    private String lineNoTwo;</span>
+    @NotBlank(message = &quot;city can not be blank&quot;)
+<span class="nc" id="L27">    private String city;</span>
+    @NotBlank(message = &quot;state can not be blank&quot;)
+<span class="nc" id="L29">    private String state;</span>
+    @NotBlank(message = &quot;pinCode can not be blank&quot;)
+    @Pattern(regexp=&quot;^[1-9][0-9]{5}$&quot;,message = &quot;Please provide a valid pin code&quot;)
+<span class="nc" id="L32">    private String pinCode;</span>
+    @NotBlank(message = &quot;country name can not be blank&quot;)
+<span class="nc" id="L34">    private String country;</span>
+<span class="nc" id="L35">    private boolean isDefault;</span>
+    @ManyToOne
+    @JoinColumn(name = &quot;user_id&quot;, nullable = false)
+<span class="fc" id="L38">    private User user;</span>
+
+<span class="fc" id="L40">    public Address() {</span>
+<span class="fc" id="L41">        this.isDefault = false;</span>
+<span class="fc" id="L42">    }</span>
+
+<span class="fc" id="L44">    public Address(String lineNoOne, String lineNoTwo, String city, String state, String pinCode, String country, User user) {</span>
+<span class="fc" id="L45">        this.lineNoOne = lineNoOne;</span>
+<span class="fc" id="L46">        this.lineNoTwo = lineNoTwo;</span>
+<span class="fc" id="L47">        this.city = city;</span>
+<span class="fc" id="L48">        this.state = state;</span>
+<span class="fc" id="L49">        this.pinCode = pinCode;</span>
+<span class="fc" id="L50">        this.country = country;</span>
+<span class="fc" id="L51">        this.user = user;</span>
+<span class="fc" id="L52">    }</span>
+
+    public static Address create(CreateAddressRequest createRequest, User user) {
+<span class="fc" id="L55">        return new Address(createRequest.getLineNoOne(),</span>
+<span class="fc" id="L56">                createRequest.getLineNoTwo(),</span>
+<span class="fc" id="L57">                createRequest.getCity(),</span>
+<span class="fc" id="L58">                createRequest.getState(),</span>
+<span class="fc" id="L59">                createRequest.getPinCode(),</span>
+<span class="fc" id="L60">                createRequest.getCountry(),</span>
+                user);
+    }
+
+    public AddressResponse toResponse() {
+<span class="fc" id="L65">        return AddressResponse.builder()</span>
+<span class="fc" id="L66">                .id(id)</span>
+<span class="fc" id="L67">                .lineNoOne(lineNoOne)</span>
+<span class="fc" id="L68">                .lineNoTwo(lineNoTwo)</span>
+<span class="fc" id="L69">                .city(city)</span>
+<span class="fc" id="L70">                .state(state)</span>
+<span class="fc" id="L71">                .country(country)</span>
+<span class="fc" id="L72">                .pinCode(pinCode)</span>
+<span class="fc" id="L73">                .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

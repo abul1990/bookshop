@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddressController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.user.address</a> &gt; <span class="el_source">AddressController.java</span></div><h1>AddressController.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.user.address;
+
+import com.tw.bootcamp.bookshop.user.User;
+import com.tw.bootcamp.bookshop.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+
+@RestController
+@RequestMapping(&quot;/addresses&quot;)
+<span class="fc" id="L23">public class AddressController {</span>
+    @Autowired
+    private AddressService addressService;
+    @Autowired
+    private UserService userService;
+
+    @PostMapping
+    @Operation(summary = &quot;Create address&quot;, description = &quot;Creates address for user&quot;, tags = {&quot;Address Service&quot;})
+    @ApiResponses(value = {@ApiResponse(responseCode = &quot;201&quot;,
+            description = &quot;Address created&quot;, content = {@Content(mediaType = &quot;application/json&quot;,
+            schema = @Schema(implementation = ResponseEntity.class))})}
+    )
+    public ResponseEntity&lt;AddressResponse&gt; create(@RequestBody CreateAddressRequest createRequest, Principal principal) {
+<span class="pc" id="L36">        User user = userService.findByEmail(principal.getName()).orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User not found&quot;));</span>
+<span class="fc" id="L37">        Address address = addressService.create(createRequest, user);</span>
+<span class="fc" id="L38">        AddressResponse addressResponse = address.toResponse();</span>
+<span class="fc" id="L39">        return new ResponseEntity&lt;&gt;(addressResponse, HttpStatus.CREATED);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

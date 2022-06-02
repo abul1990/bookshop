@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PaymentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase.payment</a> &gt; <span class="el_source">PaymentService.java</span></div><h1>PaymentService.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase.payment;
+
+import com.tw.bootcamp.bookshop.purchase.PaymentFailedException;
+import com.tw.bootcamp.bookshop.purchase.PurchaseRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+
+@Component
+<span class="fc" id="L14">public class PaymentService {</span>
+
+    public static final String EXTERNAL_PAYMENT_API_URL = &quot;https://tw-mock-credit-service.herokuapp.com/payments&quot;;
+    @Autowired
+    RestTemplate restTemplate;
+
+
+    public void pay(PurchaseRequest purchaseRequest) throws Exception {
+//        if (PaymentMethod.CARD.equals(purchaseRequest.getPaymentMethod())) {
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_JSON);
+//            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+//
+//            try {
+//                HttpEntity&lt;CardPaymentRequest&gt; entity = new HttpEntity&lt;CardPaymentRequest&gt;(makePayment(purchaseRequest), headers);
+//                restTemplate.exchange(
+//                        EXTERNAL_PAYMENT_API_URL, HttpMethod.POST, entity, String.class).getStatusCode();
+//
+//            } catch (RestClientResponseException restClientResponseException) {
+//                int paymentStatusCode = restClientResponseException.getRawStatusCode();
+//
+//                boolean isUpStreamDown = paymentStatusCode == HttpStatus.INTERNAL_SERVER_ERROR.value();
+//                if (isUpStreamDown) {
+//                    throw new PaymentFailedException(&quot;Payment failed retry after some time&quot;);
+//                }
+//
+//                boolean isBadRequest = paymentStatusCode == HttpStatus.BAD_REQUEST.value();
+//                if (isBadRequest) {
+//                    throw new PaymentFailedException(&quot;Payment details wrong&quot;);
+//                }
+//            }
+//
+//        }
+<span class="nc" id="L47">    }</span>
+
+    public void makePayment(PurchaseRequest purchaseRequest) {
+        //return CardPaymentRequest.createCardPayment(purchaseRequest.getCard(), purchaseRequest.getTotalPrice().getAmount());
+<span class="nc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

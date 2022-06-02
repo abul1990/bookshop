@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tw.bootcamp.bookshop.purchase.PurchaseServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-05-16T09:39:58" hostname="Abulassans-MacBook-Pro.local" time="0.398">
+  <properties/>
+  <testcase name="shouldPlaceAnOrderSuccessfullyWhenOrderedBookIsAvailable()" classname="com.tw.bootcamp.bookshop.purchase.PurchaseServiceTest" time="0.371"/>
+  <testcase name="failToPlaceOrderWhenErrorInSavingOrderObject()" classname="com.tw.bootcamp.bookshop.purchase.PurchaseServiceTest" time="0.005"/>
+  <testcase name="throwBookNotAvailableExceptionWhenRequestedBookIsAvailableButLessThanNoOfCopiesOrdered()" classname="com.tw.bootcamp.bookshop.purchase.PurchaseServiceTest" time="0.009"/>
+  <testcase name="throwBookNotAvailableExceptionWhenRequestedBookIsUnavailable()" classname="com.tw.bootcamp.bookshop.purchase.PurchaseServiceTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

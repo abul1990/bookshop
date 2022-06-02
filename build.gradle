@@ -1,0 +1,116 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.2.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'jacoco'
+}
+
+group = 'com.tw.bootcamp'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'junit:junit:4.13.1'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.3.3.RELEASE'
+
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.11'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.33.2"
+
+}
+
+test {
+    systemProperty 'spring.profiles.active', 'test'
+    useJUnitPlatform()
+    reports {
+        junitXml.enabled = true
+    }
+}
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDir = file("$buildDir/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = file("$buildDir/jacoco/jacocohtml")
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+            }
+        }
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com/tw/**/**/**/Book.class', // TODO: make it more generic
+                                        'com/tw/**/**/**/User.class',
+                                        'com/tw/**/**/**/Role.class',
+                                        'com/tw/**/**/**/Money.class',
+                                        'com/tw/**/**/**/Order.class',
+                                        'com/tw/**/**/**/Card.class',
+                                        'com/tw/**/**/**/CardPayment.class',
+                                        '**/*CreateAddressRequest.class',
+                                        '**/Address.class',
+                                        'com/tw/**/**/**/TransactionStatus.class',
+                                        'com/tw/**/**/**/PurchaseResponse.class',
+                                        'com/tw/**/**/**/PurchaseRequest.class',
+                                        'com/tw/**/**/**/PaymentMethod.class',
+                                        'com/tw/**/**/**/BookResponse.class',
+                                        'com/tw/**/**/**/UserResponse.class',
+                                        'com/tw/**/**/**/UpdateUserRequest.class',
+                                        'com/tw/**/**/**/CreateUserRequest.class',
+                                        'com/tw/**/**/**/UserNotFoundException.class',
+                                        'com/tw/**/**/**/InvalidEmailException.class',
+                                        '**/*BookshopApplication.class',
+                                        'com/tw/**/**/**/CardPaymentRequest.class',
+                                        'com/tw/**/**/**/PaymentMethodFactory.class',
+                                        '**/*Builder.class'])
+        }))
+    }
+}
+
+check.dependsOn(jacocoTestCoverageVerification)

@@ -1,0 +1,1 @@
+ALTER TABLE books ADD COLUMN image varchar(255) NOT NULL;

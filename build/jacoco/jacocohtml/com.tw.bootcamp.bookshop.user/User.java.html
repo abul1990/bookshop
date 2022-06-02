@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.user</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.user;
+
+import com.tw.bootcamp.bookshop.user.address.Address;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="pc" id="L15">@Builder</span>
+@Getter
+<span class="fc" id="L17">@AllArgsConstructor</span>
+@Entity
+@Table(name = &quot;users&quot;)
+public class User {
+<span class="fc" id="L21">    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();</span>
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L25">    private Long id;</span>
+    @NotBlank(message = &quot;Email is mandatory&quot;)
+<span class="fc" id="L27">    private String email;</span>
+    @NotBlank(message = &quot;Password is mandatory&quot;)
+<span class="fc" id="L29">    private String password;</span>
+    @Enumerated(EnumType.STRING)
+<span class="fc" id="L31">    private Role role;</span>
+<span class="fc" id="L32">    private String firstName;</span>
+<span class="fc" id="L33">    private String lastName;</span>
+<span class="fc" id="L34">    private String mobileNumber;</span>
+    @OneToMany(mappedBy = &quot;user&quot;, cascade = CascadeType.ALL)
+<span class="fc" id="L36">    private List&lt;Address&gt; addresses;</span>
+
+<span class="fc" id="L38">    public User() {</span>
+<span class="fc" id="L39">    }</span>
+
+<span class="fc" id="L41">    private User(String email, String password, Role role) {</span>
+<span class="fc" id="L42">        this.email = email;</span>
+<span class="fc" id="L43">        this.password = password;</span>
+<span class="fc" id="L44">        this.role = role;</span>
+<span class="fc" id="L45">    }</span>
+
+    public static User create(CreateUserRequest userRequest) {
+<span class="fc" id="L48">        String password = &quot;&quot;;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (!userRequest.getPassword().isEmpty()) {</span>
+<span class="fc" id="L50">            password = PASSWORD_ENCODER.encode(userRequest.getPassword());</span>
+        }
+<span class="fc" id="L52">        return new User(userRequest.getEmail(), password, Role.USER);</span>
+    }
+
+    public void update(UpdateUserRequest updateUserRequest) {
+<span class="fc" id="L56">        firstName = updateUserRequest.getFirstName();</span>
+<span class="fc" id="L57">        lastName = updateUserRequest.getLastName();</span>
+<span class="fc" id="L58">        mobileNumber = updateUserRequest.getMobileNumber();</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if(updateUserRequest.getAddress() != null) {</span>
+<span class="fc" id="L60">            Address address = Address.create(updateUserRequest.getAddress(), this);</span>
+<span class="fc" id="L61">            addresses.add(address);</span>
+        }
+<span class="fc" id="L63">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

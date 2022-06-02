@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PurchaseRequestValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase.payment</a> &gt; <span class="el_source">PurchaseRequestValidator.java</span></div><h1>PurchaseRequestValidator.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase.payment;
+
+import com.tw.bootcamp.bookshop.purchase.PurchaseRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import java.util.Objects;
+
+@Service
+<span class="fc" id="L11">public class PurchaseRequestValidator implements Validator {</span>
+    @Override
+    public boolean supports(Class&lt;?&gt; clazz) {
+<span class="nc" id="L14">        return PurchaseRequest.class.isAssignableFrom(clazz);</span>
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+<span class="nc" id="L19">        final PurchaseRequest incomingPurchaseRequest = (PurchaseRequest) target;</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">        if (isValidCODRequest(incomingPurchaseRequest)) {</span>
+<span class="nc" id="L21">            errors.rejectValue(&quot;card&quot;, &quot;InvalidPaymentMethod&quot;, &quot;For COD payment, Card details are not mandatory&quot;);</span>
+        }
+<span class="nc" id="L23">    }</span>
+
+    private boolean isValidCODRequest(PurchaseRequest incomingPurchaseRequest) {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        return PaymentMethod.COD.equals(incomingPurchaseRequest.getPaymentMethod()) &amp;&amp;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">                Objects.nonNull(incomingPurchaseRequest.getCard());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.purchase</a> &gt; <span class="el_source">OrderService.java</span></div><h1>OrderService.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.purchase;
+
+import com.tw.bootcamp.bookshop.error.InvalidDateRangeException;
+import com.tw.bootcamp.bookshop.order.OrderResponse;
+import com.tw.bootcamp.bookshop.user.address.Address;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+<span class="nc" id="L15">public class OrderService {</span>
+
+    @Autowired
+    OrdersRepository ordersRepository;
+
+
+    public Order createOrder(Order order) {
+<span class="nc" id="L22">        return ordersRepository.save(order);</span>
+    }
+
+
+    public List&lt;OrderResponse&gt; fetchAll() {
+<span class="nc" id="L27">        List&lt;Order&gt; orderList = (List&lt;Order&gt;) ordersRepository.findAll();</span>
+<span class="nc" id="L28">        return getOrderResponses(orderList);</span>
+
+    }
+
+    public List&lt;OrderResponse&gt; fetchOrdersByDateRange(Date startDate, Date endDate) throws InvalidDateRangeException {
+<span class="nc bnc" id="L33" title="All 4 branches missed.">        if (startDate.after(new Date(System.currentTimeMillis())) || endDate.after(new Date(System.currentTimeMillis())))</span>
+<span class="nc" id="L34">            throw new InvalidDateRangeException(&quot;Start Date and End Date should be equal or before current date&quot;);</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        if (startDate.after(endDate)) throw new InvalidDateRangeException(&quot;Start Date Should be before End Date&quot;);</span>
+
+<span class="nc" id="L37">        List&lt;Order&gt; orderList = ordersRepository.findOrdersByDateRange(startDate, endDate);</span>
+<span class="nc" id="L38">        return getOrderResponses(orderList);</span>
+    }
+
+    private List&lt;OrderResponse&gt; getOrderResponses(List&lt;Order&gt; orderList) {
+<span class="nc" id="L42">        List&lt;OrderResponse&gt; orderResponseList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (CollectionUtils.isEmpty(orderList)) {</span>
+<span class="nc" id="L44">            return orderResponseList;</span>
+        }
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        for (Order order : orderList) {</span>
+<span class="nc" id="L47">            orderResponseList.add(generateOrderResponse(order));</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">        return orderResponseList;</span>
+    }
+
+
+    private OrderResponse generateOrderResponse(Order order) {
+<span class="nc" id="L54">        OrderResponse orderResponse = new OrderResponse();</span>
+<span class="nc" id="L55">        orderResponse.setBookISBN(order.getBook()</span>
+<span class="nc" id="L56">                .getIsbnNumber());</span>
+<span class="nc" id="L57">        orderResponse.setBookName(order.getBook()</span>
+<span class="nc" id="L58">                .getName());</span>
+<span class="nc" id="L59">        orderResponse.setBookId(order.getBook()</span>
+<span class="nc" id="L60">                .getId());</span>
+<span class="nc" id="L61">        orderResponse.setOrderDate(order.getOrderDate());</span>
+<span class="nc" id="L62">        orderResponse.setCustomerName(order.getCustomerName());</span>
+<span class="nc" id="L63">        orderResponse.setCustomerPhoneNumber(order.getMobileNumber());</span>
+<span class="nc" id="L64">        orderResponse.setNoOfCopies(order.getNoOfCopies());</span>
+<span class="nc" id="L65">        orderResponse.setId(order.getId());</span>
+<span class="nc" id="L66">        orderResponse.setTotalPrice(order.getTotalPrice());</span>
+
+<span class="nc" id="L68">        orderResponse.setAddress(createAddress(order));</span>
+<span class="nc" id="L69">        return orderResponse;</span>
+    }
+
+    private Address createAddress(Order order) {
+<span class="nc" id="L73">        Address address = new Address();</span>
+<span class="nc" id="L74">        address.setLineNoOne(order.getAddressLineNoOne());</span>
+<span class="nc" id="L75">        address.setLineNoTwo(order.getAddressLineNoTwo());</span>
+<span class="nc" id="L76">        address.setCity(order.getAddressCity());</span>
+<span class="nc" id="L77">        address.setCountry(order.getAddressCountry());</span>
+<span class="nc" id="L78">        address.setState(order.getAddressState());</span>
+<span class="nc" id="L79">        address.setPinCode(order.getAddressPinCode());</span>
+<span class="nc" id="L80">        return address;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

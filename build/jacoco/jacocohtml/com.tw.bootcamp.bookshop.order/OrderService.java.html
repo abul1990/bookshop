@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">bookshop</a> &gt; <a href="index.source.html" class="el_package">com.tw.bootcamp.bookshop.order</a> &gt; <span class="el_source">OrderService.java</span></div><h1>OrderService.java</h1><pre class="source lang-java linenums">package com.tw.bootcamp.bookshop.order;
+
+import com.tw.bootcamp.bookshop.error.DateValidator;
+import com.tw.bootcamp.bookshop.error.InvalidDateException;
+import com.tw.bootcamp.bookshop.purchase.OrderAddressDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+<span class="fc" id="L15">public class OrderService {</span>
+
+    @Autowired
+    OrdersRepository ordersRepository;
+
+
+    public Order createOrder(Order order) {
+<span class="fc" id="L22">        return ordersRepository.save(order);</span>
+    }
+
+
+    public List&lt;OrderResponse&gt; fetchAll() {
+<span class="fc" id="L27">        List&lt;Order&gt; orderList = (List&lt;Order&gt;) ordersRepository.findAll();</span>
+<span class="fc" id="L28">        return getOrderResponses(orderList);</span>
+
+    }
+
+    public List&lt;OrderResponse&gt; fetchOrdersByDateRange(String startDate, String endDate) throws InvalidDateException {
+<span class="fc" id="L33">        Date fromDate = DateValidator.createDate(startDate);</span>
+<span class="fc" id="L34">        Date toDate = DateValidator.createDate(endDate);</span>
+<span class="fc" id="L35">        DateValidator.validateDateRange(fromDate, toDate);</span>
+<span class="fc" id="L36">        List&lt;Order&gt; orderList = ordersRepository.findOrdersByDateRange(fromDate, toDate);</span>
+<span class="fc" id="L37">        return getOrderResponses(orderList);</span>
+
+    }
+
+
+    private List&lt;OrderResponse&gt; getOrderResponses(List&lt;Order&gt; orderList) {
+<span class="fc" id="L43">        List&lt;OrderResponse&gt; orderResponseList = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (CollectionUtils.isEmpty(orderList)) {</span>
+<span class="fc" id="L45">            return orderResponseList;</span>
+        }
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        for (Order order : orderList) {</span>
+<span class="fc" id="L48">            orderResponseList.add(generateOrderResponse(order));</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">        return orderResponseList;</span>
+    }
+
+
+    private OrderResponse generateOrderResponse(Order order) {
+<span class="fc" id="L55">        OrderResponse orderResponse = new OrderResponse();</span>
+<span class="fc" id="L56">        orderResponse.setBookISBN(order.getBook()</span>
+<span class="fc" id="L57">                .getIsbnNumber());</span>
+<span class="fc" id="L58">        orderResponse.setBookName(order.getBook()</span>
+<span class="fc" id="L59">                .getName());</span>
+<span class="fc" id="L60">        orderResponse.setBookId(order.getBook()</span>
+<span class="fc" id="L61">                .getId());</span>
+<span class="fc" id="L62">        orderResponse.setOrderDate(order.getOrderDate());</span>
+<span class="fc" id="L63">        orderResponse.setCustomerName(order.getCustomerName());</span>
+<span class="fc" id="L64">        orderResponse.setCustomerPhoneNumber(order.getMobileNumber());</span>
+<span class="fc" id="L65">        orderResponse.setNoOfCopies(order.getNoOfCopies());</span>
+<span class="fc" id="L66">        orderResponse.setId(order.getId());</span>
+<span class="fc" id="L67">        orderResponse.setTotalPrice(order.getTotalPrice());</span>
+
+<span class="fc" id="L69">        orderResponse.setAddress(createAddress(order));</span>
+<span class="fc" id="L70">        return orderResponse;</span>
+    }
+
+    private OrderAddressDTO createAddress(Order order) {
+<span class="fc" id="L74">        OrderAddressDTO address = new OrderAddressDTO();</span>
+<span class="fc" id="L75">        address.setLineNoOne(order.getAddressLineNoOne());</span>
+<span class="fc" id="L76">        address.setLineNoTwo(order.getAddressLineNoTwo());</span>
+<span class="fc" id="L77">        address.setCity(order.getAddressCity());</span>
+<span class="fc" id="L78">        address.setCountry(order.getAddressCountry());</span>
+<span class="fc" id="L79">        address.setState(order.getAddressState());</span>
+<span class="fc" id="L80">        address.setPinCode(order.getAddressPinCode());</span>
+<span class="fc" id="L81">        return address;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

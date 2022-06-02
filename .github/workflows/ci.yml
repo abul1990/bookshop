@@ -49,6 +49,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
+          SONAR_TOKEN: "1e2304cb0f57151c3e77db7a05dcab228f527993"
           SONAR_HOST_URL: http://localhost:9000
 
       - name: SonarQube Quality Gate check

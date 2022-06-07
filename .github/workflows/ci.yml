@@ -36,7 +36,7 @@ jobs:
           retention-days: 5
 
   sonar:
-    if: ! contains(github.ref, 'main')
+    if: contains(github.ref, 'main')
     name: Sonar Scan
     runs-on: ubuntu-latest
     needs: build

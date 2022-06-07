@@ -61,6 +61,7 @@ jobs:
       - name: Result of sonarqube scan
         run: |
           echo "Report is available"
+          echo "ref:" ${{github.ref}}
 
   dockerize:
     name: Dockerize
@@ -105,7 +106,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          
           echo "tag 2:" ${{ steps.docker_metadata.outputs.tags }}
           echo "tag 3:" ${{ env.DOCKER_TAG }}
           docker build -t bookshop-api-ci:latest .

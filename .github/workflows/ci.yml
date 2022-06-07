@@ -22,7 +22,7 @@ jobs:
       - name: Build service
         run: |
           echo "ref:" ${{github.ref}}
-          echo "result:" ${{contains(github.ref, 'feature')}}
+          echo "result:" ${{contains(github.ref, 'main')}}
           chmod +x gradlew
           gradle clean build
         continue-on-error: false

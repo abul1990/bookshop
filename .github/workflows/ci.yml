@@ -36,7 +36,6 @@ jobs:
           retention-days: 5
 
   sonar:
-    if: "!contains(github.ref, 'main')"
     name: Sonar Scan
     runs-on: ubuntu-latest
     needs: build
@@ -54,6 +53,9 @@ jobs:
         env:
           SONAR_TOKEN: "1e2304cb0f57151c3e77db7a05dcab228f527993"
           SONAR_HOST_URL: http://localhost:9000
+        with:
+          args: >
+            -Dsonar.branch.name=main
 
       - name: SonarQube Quality Gate check
         continue-on-error: true

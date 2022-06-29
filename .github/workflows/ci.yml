@@ -55,7 +55,7 @@ jobs:
           SONAR_HOST_URL: http://localhost:9000
         with:
           args: >
-            -Dsonar.branch.name=main
+            -Dsonar.branch.name=feature/MART-85646
 
       - name: SonarQube Quality Gate check
         continue-on-error: true

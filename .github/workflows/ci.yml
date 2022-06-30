@@ -55,23 +55,23 @@ jobs:
           SONAR_HOST_URL: http://localhost:9000
         with:
           args: >
-            -Dsonar.branch.name="'feature/MART-85646-build-issue'"
+            -Dsonar.branch.name=feature/MART-85646-build-issue
 
-      - name: SonarQube Quality Gate check
-        continue-on-error: true
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        # Force to fail step after specific time
-        timeout-minutes: 5
+#       - name: SonarQube Quality Gate check
+#         continue-on-error: true
+#         uses: sonarsource/sonarqube-quality-gate-action@master
+#         # Force to fail step after specific time
+#         timeout-minutes: 5
 
-      - name: Result of sonarqube scan
-        run: |
-          echo "Report is available"
-          echo "ref:" ${{github.ref}}
+#       - name: Result of sonarqube scan
+#         run: |
+#           echo "Report is available"
+#           echo "ref:" ${{github.ref}}
 
   dockerize:
     name: Dockerize
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, sonar]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

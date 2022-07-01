@@ -54,8 +54,8 @@ jobs:
           SONAR_TOKEN: "1e2304cb0f57151c3e77db7a05dcab228f527993"
           SONAR_HOST_URL: http://localhost:9000
         with:
-          args: >
-            ${'main' == 'main' ? '' : -Dsonar.branch.name=feature/MART-85646-build-issue}
+          args:
+            -Dsonar.branch.name=feature/MART-85646-build-issue
 
 #       - name: SonarQube Quality Gate check
 #         continue-on-error: true
